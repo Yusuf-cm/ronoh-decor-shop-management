@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Container, Header, Table, Button, FormContainer, FormGroup, Input, Select, ErrorMessage, LoadingContainer } from './SharedStyles';
-import { formatCurrency } from '../utils/format';
 
 const EMPTY_ITEM = { name: '', sku: '', category: '', quantity: 0, unit_price: '', cost_price: '', supplier_id: '' };
 
@@ -47,9 +46,8 @@ function InventoryManager({ token }) {
 
     try {
       const headers = { 'Authorization': `Bearer ${token}` };
-      const response = await axios[method](url, editingItem, { headers });
+      await axios[method](url, editingItem, { headers });
       
-      // Fetch the full list again to get updated supplier names
       const updatedItemsRes = await axios.get('http://localhost:3000/api/inventory', { headers });
       setItems(updatedItemsRes.data);
       
@@ -89,8 +87,8 @@ function InventoryManager({ token }) {
             <FormGroup><label>SKU</label><Input name="sku" value={editingItem.sku} onChange={handleInputChange} required /></FormGroup>
             <FormGroup><label>Category</label><Input name="category" value={editingItem.category} onChange={handleInputChange} /></FormGroup>
             <FormGroup><label>Quantity</label><Input name="quantity" type="number" value={editingItem.quantity} onChange={handleInputChange} required /></FormGroup>
-            <FormGroup><label>Selling Price</label><Input name="unit_price" type="number" step="0.01" value={editingItem.unit_price} onChange={handleInputChange} required /></FormGroup>
-            <FormGroup><label>Cost Price</label><Input name="cost_price" type="number" step="0.01" value={editingItem.cost_price} onChange={handleInputChange} required /></FormGroup>
+            <FormGroup><label>Selling Price (Ksh)</label><Input name="unit_price" type="number" step="0.01" value={editingItem.unit_price} onChange={handleInputChange} required /></FormGroup>
+            <FormGroup><label>Cost Price (Ksh)</label><Input name="cost_price" type="number" step="0.01" value={editingItem.cost_price} onChange={handleInputChange} required /></FormGroup>
             <FormGroup><label>Supplier</label>
               <Select name="supplier_id" value={editingItem.supplier_id} onChange={handleInputChange} required>
                 <option value="">Select a Supplier</option>
@@ -114,8 +112,8 @@ function InventoryManager({ token }) {
               <td>{item.sku}</td>
               <td>{item.category}</td>
               <td>{item.quantity}</td>
-              <td>{formatCurrency(item.unit_price)}</td>
-              <td>{formatCurrency(item.cost_price)}</td>
+              <td>{`Ksh ${parseFloat(item.unit_price).toFixed(2)}`}</td>
+              <td>{`Ksh ${parseFloat(item.cost_price).toFixed(2)}`}</td>
               <td>{item.supplier ? item.supplier.name : 'N/A'}</td>
               <td>
                 <Button variant="primary" onClick={() => setEditingItem(item)}>Edit</Button>
