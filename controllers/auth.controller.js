@@ -1,9 +1,10 @@
+require('dotenv').config();
 const User = require('../models/user.model');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 // A secret key for our ID cards. In a real app, this MUST be hidden!
-const JWT_SECRET = 'your-super-secret-key-that-is-long-and-random';
+process.env.JWT_SECRET
 
 // Register a new user
 exports.register = async (req, res) => {

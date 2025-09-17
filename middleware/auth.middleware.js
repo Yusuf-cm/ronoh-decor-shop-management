@@ -1,5 +1,6 @@
+require('dotenv').config();
 const jwt = require('jsonwebtoken');
-const JWT_SECRET = 'your-super-secret-key-that-is-long-and-random'; // Must be the same secret key!
+process.env.JWT_SECRET
 
 function authenticateToken(req, res, next) {
   // The ID card is usually sent in the "Authorization" header like this: "Bearer TOKEN"

@@ -1,11 +1,17 @@
 // This file contains the "key" to our database.
+require('dotenv').config();
 const { Sequelize } = require('sequelize');
 
 // Create a new Sequelize object with our database details.
 // It's like telling it: "Here is the address, the username, and the password."
-const sequelize = new Sequelize('ronohs_decor_db', 'postgres', 'admin', {
-  host: 'localhost',
-  dialect: 'postgres' // Tell Sequelize we are using PostgreSQL
+const sequelize = new Sequelize(process.env.DATABASE_URL, {
+  dialect: 'postgres',
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false // Required for Render connections
+    }
+  }
 });
 
 // This is a little test to see if the key works.
