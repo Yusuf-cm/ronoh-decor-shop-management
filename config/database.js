@@ -1,4 +1,4 @@
-// This file contains the "key" to our database.
+// config/database.js
 require('dotenv').config();
 const { Sequelize } = require('sequelize');
 
@@ -9,33 +9,21 @@ if (process.env.DATABASE_URL) {
   sequelize = new Sequelize(process.env.DATABASE_URL, {
     dialect: 'postgres',
     protocol: 'postgres',
+    logging: false, // Optional: Turn off noisy SQL logs in production
     dialectOptions: {
       ssl: {
         require: true,
-        rejectUnauthorized: false // This is important for Render connections
+        rejectUnauthorized: false
       }
     }
   });
 } else {
   // This block is for LOCAL development
-  sequelize = new Sequelize('ronohs_decor_db', 'postgres', 'admin', {
+  sequelize = new Sequelize('ronohs_decor_db', 'postgres', 'password', { // Replace 'password'
     host: 'localhost',
     dialect: 'postgres'
   });
 }
 
-// This is a little test to see if the key works.
-async function testConnection() {
-  try {
-    await sequelize.authenticate();
-    console.log('Connection to database has been established successfully.');
-  } catch (error) {
-    console.error('Unable to connect to the database:', error);
-  }
-}
 
-// Run the test.
-testConnection();
-
-// Export the key so other parts of our app can use it.
 module.exports = sequelize;
