@@ -1,2 +1,12 @@
 node_modules
 .env
+# Environment variables & secrets
+.env
+.env.*
+!.env.example
+.env.local
+.env.*.local
+*.env
+**/.env
+**/.env.local
+
