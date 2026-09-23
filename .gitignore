@@ -1,12 +1,31 @@
-node_modules
-.env
+# Dependencies
+node_modules/
+
 # Environment variables & secrets
 .env
 .env.*
 !.env.example
-.env.local
-.env.*.local
-*.env
-**/.env
-**/.env.local
 
+# Build / cache
+.next/
+dist/
+build/
+.cache/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Local databases
+*.db
+*.sqlite
+*.sqlite3
+
+# OS / editors
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
